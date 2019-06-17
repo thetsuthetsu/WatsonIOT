@@ -1,0 +1,13 @@
+@startuml
+participant SampleDevice <<Subscriner>><<Publisher>>
+participant SampleApplication <<Subscriner>><<Publisher>>
+participant IBM_Watson_IoT_Platform <<Broker>>
+SampleDevice -> IBM_Watson_IoT_Platform :sub_command (8883)
+SampleApplication -> IBM_Watson_IoT_Platform :sub_event(8883)
+SampleDevice -> IBM_Watson_IoT_Platform : pub_event({"count":n++})
+SampleApplication <- IBM_Watson_IoT_Platform : pub_event({"count":n++})
+alt n >= 4
+SampleApplication -> IBM_Watson_IoT_Platform :pub_command({"name":"restart-counter",...})
+SampleDevice <- IBM_Watson_IoT_Platform: publish({"name":"restart-counter",...})
+end
+@enduml
